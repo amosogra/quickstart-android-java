@@ -4,6 +4,8 @@ import ai.deepar.ar.ARErrorType;
 import ai.deepar.ar.AREventListener;
 import ai.deepar.ar.CameraResolutionPreset;
 import ai.deepar.ar.DeepAR;
+import ai.deepar.ar.DeepARImageFormat;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -47,7 +49,6 @@ import java.util.concurrent.ExecutionException;
 import androidx.camera.core.*;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.lifecycle.LifecycleOwner;
-import ai.deepar.ar.DeepARImageFormat;
 
 public class MainActivity extends AppCompatActivity implements SurfaceHolder.Callback, AREventListener {
 
@@ -210,8 +211,6 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 Intent myIntent = new Intent(MainActivity.this, BasicActivity.class);
                 MainActivity.this.startActivity(myIntent);
             }
-
-
         });
 
 
@@ -262,8 +261,8 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                                 deepAR.stopVideoRecording();
                                 Toast.makeText(getApplicationContext(), "Recording " + videoFileName.getName() + " saved.", Toast.LENGTH_LONG).show();
                             } else {
-                                videoFileName = new File(getExternalFilesDir(Environment.DIRECTORY_MOVIES), "video_" + new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date()) + ".mp4");
-                                deepAR.startVideoRecording(videoFileName.toString(), width/2, height/2);
+                                videoFileName = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), "video_" + new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date()) + ".mp4");
+                                deepAR.startVideoRecording(videoFileName.toString());
                                 Toast.makeText(getApplicationContext(), "Recording started.", Toast.LENGTH_SHORT).show();
                             }
                             recording = !recording;
@@ -378,7 +377,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     }
     private void initializeDeepAR() {
         deepAR = new DeepAR(this);
-        deepAR.setLicenseKey("your_license_key_here");
+        deepAR.setLicenseKey("7ae39dc9fdca4e858727a6ec6f9196c3d0698c3249c4bf07b28094578d210bf9fc2e6b637401b5ac");
         deepAR.initialize(this, this);
         setupCamera();
     }
